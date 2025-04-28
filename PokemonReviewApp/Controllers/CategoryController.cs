@@ -68,13 +68,11 @@ namespace PokemonReviewApp.Controllers
             if (categoryCreate == null)
                 return BadRequest(ModelState);
 
-            //asagidaki setr deyir ki, GetCategories'de olan name ile bu createCategory name eyni ada sahibdi,
-            //asagidaki eyni ada sahib oldugunu qeyd etmis olur
+           
             var category = _categoryRepository.GetCategories()
                            .Where(c => c.Name.Trim().ToUpper() == categoryCreate.Name.Trim().ToUpper())
                            .FirstOrDefault();
-            //oduki, asagidaki code onu bildirir ki, eger setr null deyilse eyni category adina mensub verilen qeyd olunub
-            //ve bizden de asagidaki yanlisin verilmeyini isteyir
+            
             if (category != null)
             {
                 ModelState.AddModelError("", "Category already exists");
@@ -84,11 +82,8 @@ namespace PokemonReviewApp.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            //normalde neyise istifade edende Dto ustunden istifade edirik ama burda create elediyine
-            //gore bunu Category'e cevirmelid idi
-            var categoryMap = _mapper.Map<Category>(categoryCreate);//burda createCategory CategoryDto cinsinden
-                                                                    //Category cinsine cevrilir cunki Interface'de
-                                                                    //biz bunu Category seklinde vermisik
+           
+            var categoryMap = _mapper.Map<Category>(categoryCreate);
 
             if (!_categoryRepository.CreateCategory(categoryMap))
             {

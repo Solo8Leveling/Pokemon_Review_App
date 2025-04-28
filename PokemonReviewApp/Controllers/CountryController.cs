@@ -85,7 +85,7 @@ namespace PokemonReviewApp.Controllers
             
             var countryMap = _mapper.Map<Country>(countryCreate);
 
-            if (!_countryRepository.CreateCountry(countryMap))  //burdaki CreateCountry interface'de yazdigimizdi
+            if (!_countryRepository.CreateCountry(countryMap))          
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
             }

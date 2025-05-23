@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PokemonReviewApp.DTO;
 using PokemonReviewApp.Interfaces;
@@ -42,7 +42,7 @@ namespace PokemonReviewApp.Controllers
         {
             if (!_ownerRepository.OwnerExists(ownerId))
                 return NotFound();
-            //automapper ile yazdigimiza gore null olan hec bir seyi ekranda yazdirmir, sadece verilenleri goruruk
+            
             var owner = _mapper.Map<OwnerDto>(_ownerRepository.GetOwner(ownerId));
 
             if (!ModelState.IsValid)
@@ -89,15 +89,14 @@ namespace PokemonReviewApp.Controllers
                 return BadRequest(ModelState);
 
 
-            var ownerMap = _mapper.Map<Owner>(ownerCreate);//burda Owner'a donusdu ve asagidaki code'da da GetCountry'ni de istedi
+            var ownerMap = _mapper.Map<Owner>(ownerCreate);
             ownerMap.Country = _countryRepository.GetCountry(countryId);
 
             if (!_ownerRepository.CreateOwner(ownerMap))
             {
                 ModelState.AddModelError("", "Something went wrong while saving");
             }
-            return Ok("Succesfully created");//bu return yuxaridaki if islemediyi zaman isleyir yeni else'idi
-        }
+            return Ok("Succesfully created");
 
         [HttpPut("{ownerId}")]
         [ProducesResponseType(204)]
